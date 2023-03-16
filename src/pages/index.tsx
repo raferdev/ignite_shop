@@ -4,6 +4,11 @@ import { GetServerSideProps } from "next";
 import Image from "next/image";
 import Stripe from "stripe";
 
+import React from 'react'
+import 'keen-slider/keen-slider.min.css'
+import { useKeenSlider } from 'keen-slider/react' // import from 'keen-slider/react.es' for to get an ES module
+
+
 interface HomeProps {
   products:{
 
@@ -15,11 +20,18 @@ interface HomeProps {
 
 }
 export default function Home({products}:HomeProps) {
-  return (
-<HomeContainer>
+ 
+ const [sliderRef] =  useKeenSlider({
+  slides:{
+    perView:3,
+    spacing:48
+ }})
+
+ return (
+<HomeContainer ref={sliderRef} className="keen-slider">
 {products.map(product => {
   return (
-  <Product key={product.id}>
+  <Product key={product.id} className="keen-slider__slide">
     <Image src={product.imageUrl} width={520} height={480} alt={''}/>
   <footer>
     <strong>
