@@ -7,6 +7,7 @@ import Stripe from "stripe";
 import React from 'react'
 import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/react' // import from 'keen-slider/react.es' for to get an ES module
+import Link from "next/link.js";
 
 
 interface HomeProps {
@@ -31,7 +32,11 @@ export default function Home({products}:HomeProps) {
 <HomeContainer ref={sliderRef} className="keen-slider">
 {products.map(product => {
   return (
-  <Product key={product.id} className="keen-slider__slide">
+    <Link 
+    href={`/product/${product.id}`} key={product.id}>
+  <Product
+  className="keen-slider__slide">
+
     <Image src={product.imageUrl} width={520} height={480} alt={''}/>
   <footer>
     <strong>
@@ -42,6 +47,7 @@ export default function Home({products}:HomeProps) {
     </span>
   </footer>
   </Product>
+  </Link>
   )
 })}
 </HomeContainer>
