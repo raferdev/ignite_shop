@@ -1,6 +1,6 @@
 import { stripe } from "@/lib/stripe";
 import { HomeContainer, Product } from "@/styles/pages/home";
-import { GetServerSideProps } from "next";
+import { GetStaticProps } from "next";
 import Image from "next/image";
 import Stripe from "stripe";
 
@@ -48,7 +48,7 @@ export default function Home({products}:HomeProps) {
   )
 }
 
-export const getServerSideProps:GetServerSideProps = async () => {
+export const getStaticProps:GetStaticProps = async () => {
 
   const response = await stripe.products.list({
     expand: ["data.default_price"]
@@ -57,7 +57,10 @@ export const getServerSideProps:GetServerSideProps = async () => {
   const products = response.data.map(product => {
     const {id, name, images, default_price } = product
     const productPrice = default_price as Stripe.Price
-    const price = productPrice.unit_amount?productPrice.unit_amount / 100 : 0
+    const price = productPrice.unit_amount? new Intl.NumberFormat('pt-BR',{
+      style:'currency',
+      currency:'BRL'
+    }).format(productPrice.unit_amount / 100) : 0
     return {
       id,
       name,

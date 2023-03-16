@@ -34,6 +34,7 @@ export const Product = styled('a', {
 
         borderRadius:6,
         
+        padding:'1rem',
         display:'flex',
         alignItems:'center',
         justifyContent:'space-between',
