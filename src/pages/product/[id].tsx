@@ -1,7 +1,7 @@
 import { stripe } from "@/lib/stripe";
 import { ImageContainer, ProductContainer, ProductDetailsContainer } from "@/styles/pages/product";
 import { GetStaticPaths, GetStaticProps } from "next";
-import Image from "next/image.js";
+import Image from "next/image";
 import Stripe from "stripe";
 
 interface ProductProps {
@@ -38,7 +38,7 @@ export const getStaticPaths:GetStaticPaths = async () => {
             params:{
                 id:'prod_NU26PdNJfxRe3M'
             }
-        }],fallback:false
+        }],fallback:true
     }
 }
 
@@ -49,7 +49,7 @@ export const getStaticProps:GetStaticProps<any,{id:string}> = async ({params}) =
         expand: ["default_price"]
       });
       
-      const {id, name, images, default_price, description } = productDetails
+      const { id, name, images, default_price, description } = productDetails
      
       const productPrice = default_price as Stripe.Price
      
@@ -57,6 +57,7 @@ export const getStaticProps:GetStaticProps<any,{id:string}> = async ({params}) =
           style:'currency',
           currency:'BRL'
         }).format(productPrice.unit_amount / 100) : 0
+        
         const imageUrl = images[0]
         const product = {
         id, name, imageUrl, price, description

@@ -7,7 +7,7 @@ import Stripe from "stripe";
 import React from 'react'
 import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/react' // import from 'keen-slider/react.es' for to get an ES module
-import Link from "next/link.js";
+import Link from "next/link";
 
 
 interface HomeProps {
