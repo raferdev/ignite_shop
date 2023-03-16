@@ -1,5 +1,5 @@
-import { HomeContainer, Product } from "@/styles/pages/home.js";
-import Image from "next/image.js";
+import { HomeContainer, Product } from "@/styles/pages/home";
+import Image from "next/image";
 
 export default function Home() {
   return (

@@ -1,4 +1,4 @@
-import { styled } from "../index.js";
+import { styled } from "../index";
 
 export const  Container = styled('div',{
     display:'flex',
