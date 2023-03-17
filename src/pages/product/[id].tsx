@@ -1,7 +1,9 @@
 import { stripe } from "@/lib/stripe";
 import { ImageContainer, ProductContainer, ProductDetailsContainer } from "@/styles/pages/product";
+import axios from "axios";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/image";
+import { useState } from "react";
 import Stripe from "stripe";
 
 interface ProductProps {
@@ -11,10 +13,28 @@ interface ProductProps {
       imageUrl:string
       price:string,
       description:string
+      defaultPriceId:string
   }
 }
 
 export default function Product({product}:ProductProps) {
+    const [isCreatingCheckoutSession,setIscreatingCheckoutSession] = useState(false)
+
+    async function handleBuyProduct() {
+
+        try {
+            setIscreatingCheckoutSession(true)
+            const response =  await axios.post('/api/checkout',{priceId:product.defaultPriceId})
+        
+            const { checkoutUrl } = response.data;
+        
+            window.location.href = checkoutUrl
+        } catch(err){
+            setIscreatingCheckoutSession(false)
+            alert('Checkout initializing error!')
+        }
+    }
+    
     return (
         <ProductContainer>
             <ImageContainer>
@@ -26,7 +46,7 @@ export default function Product({product}:ProductProps) {
             </h1>
             <span>{product.price}</span>
             <p>{product.description}</p>
-            <button>Comprar</button>
+            <button onClick={handleBuyProduct} disabled={isCreatingCheckoutSession}>Comprar</button>
             </ProductDetailsContainer>
         </ProductContainer>
     )
@@ -59,8 +79,9 @@ export const getStaticProps:GetStaticProps<any,{id:string}> = async ({params}) =
         }).format(productPrice.unit_amount / 100) : 0
         
         const imageUrl = images[0]
+        const defaultPriceId = productPrice.id
         const product = {
-        id, name, imageUrl, price, description
+        id, name, imageUrl, price, description, defaultPriceId
       }
     
     return {

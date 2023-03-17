@@ -72,7 +72,6 @@ export const getStaticProps:GetStaticProps = async () => {
       name,
       imageUrl:images[0],
       price,
-
     }
   })
 
