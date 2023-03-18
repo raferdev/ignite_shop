@@ -1,20 +1,63 @@
-import { ImageContainer } from "@/styles/pages/product.js";
-import { SucessContainer } from "@/styles/pages/sucess.js";
-import Link from "next/link.js";
+import { stripe } from "@/lib/stripe";
+import { ImageContainer } from "@/styles/pages/product";
+import { SucessContainer } from "@/styles/pages/sucess";
+import { GetServerSideProps } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import Stripe from "stripe";
 
-export default function Sucess() {
+interface SucessProps {
+    customerName:string
+    product: {
+        name:string
+        imageUrl:string
+    }
+}
+
+
+export default function Sucess({customerName,product}:SucessProps) {
+    
     return (
         <SucessContainer>
-            <h1>Compra efetuada</h1>
+            <h1>Confirmed Purchase</h1>
             <ImageContainer>
-
+            <Image src={product.imageUrl} height={120} width={110} alt={''}/>
             </ImageContainer>
             <p>
-                Uhul! <strong>{'batatinha'}</strong> você acabou de comprar <strong>{'camisa legal'}</strong>
+                Uhul! <strong>{customerName}</strong> you buy the most beautiful <strong>{product.name}!</strong>
             </p>
-            <Link href='/'>
-                Voltar a pagina inicial!
+            <Link href='/' prefetch={false}>
+               Go back to home page!
             </Link>
         </SucessContainer>
     )
+}
+
+export const getServerSideProps:GetServerSideProps = async ({query}) => {
+    if(!query.session_id) {
+        return {
+            redirect: {
+                destination:'/',
+                permanent:false,
+            }
+        }
+    }
+    
+    const session_id = String(query.session_id);
+    const session = await stripe.checkout.sessions.retrieve(session_id, {
+        expand:['line_items','line_items.data.price.product']
+    })
+
+    const customerName =  session.customer_details?.name
+    const { name, images } =  session.line_items?.data[0].price?.product as Stripe.Product
+    
+    return {
+        props:{
+            customerName,
+            product: {
+                name,
+                imageUrl:images[0]
+            }
+        }
+    }
 }
