@@ -39,18 +39,18 @@ export default function Product({product}:ProductProps) {
     return (
         <>
         <Head>
-        <title>{`${product.name} | Ignite Shop`}</title>
+        <title>{`${product?.name} | Ignite Shop`}</title>
         </Head>
         <ProductContainer>
             <ImageContainer>
-            <Image src={product.imageUrl} width={520} height={480} alt=''/>
+            <Image src={product?.imageUrl} width={520} height={480} alt=''/>
             </ImageContainer>
             <ProductDetailsContainer>
             <h1>
-                {product.name}
+                {product?.name}
             </h1>
-            <span>{product.price}</span>
-            <p>{product.description}</p>
+            <span>{product?.price}</span>
+            <p>{product?.description}</p>
             <button onClick={handleBuyProduct} disabled={isCreatingCheckoutSession}>Comprar</button>
             </ProductDetailsContainer>
         </ProductContainer>
