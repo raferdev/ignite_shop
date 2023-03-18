@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://ignite-social-ten.vercel.app/">
+  <a href="https://ignite-shop-jade.vercel.app/">
  <img width=200px src="./src/assets/logo.svg" alt="Project logo"></a>
 </p>
 
@@ -34,7 +34,7 @@ This project is the fourth part of Rocketseat ReactJs course with i am using to 
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
-You can clone the project and start on your local host or open the site hospeded <a href="https://ignite-social-ten.vercel.app">here</a>
+You can clone the project and start on your local host or open the site hospeded <a href="https://ignite-shop-jade.vercel.app/">here</a>
 
 Clone
 
